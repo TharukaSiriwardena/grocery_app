@@ -1,11 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/controllers/auth_controller.dart';
-import 'package:grocery_app/screens/auth/signup.dart';
 import 'package:grocery_app/screens/utils/app_colors.dart';
 import 'package:grocery_app/screens/utils/assets_constants.dart';
-import 'package:grocery_app/screens/utils/util_functions.dart';
-import 'package:logger/logger.dart';
+
 
 import '../../components/custom_text.dart';
 
