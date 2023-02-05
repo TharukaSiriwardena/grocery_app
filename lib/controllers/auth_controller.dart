@@ -67,6 +67,17 @@ class AuthController {
         .catchError((error) => Logger().e("Failed to save data: $error"));
   }
 
+  //------------------fetch user data saved in cloud firestore
+  Future<void> fetchUserData(String uid) async {
+    try {
+      //-------------------firebase query that fetch user data
+      DocumentSnapshot snapshot = await users.doc(uid).get();
+      Logger().w(snapshot.data());
+    } catch (e) {
+      Logger().e(e);
+    }
+  }
+
   //------------------ sign in user function
   Future<void> signInUser(
     BuildContext context,
@@ -86,12 +97,14 @@ class AuthController {
 
   //------------initialize and check whether the user is signed in or not
   Future<void> initializeUser(BuildContext context) async {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user == null) {
         Logger().i('User is currently signed out!');
         UtilFunctions.navigateTo(context, const Signup());
       } else {
         Logger().i('User is signed in!');
+        await fetchUserData(user.uid);
+        // ignore: use_build_context_synchronously
         UtilFunctions.navigateTo(context, const MainScreen());
       }
     });
