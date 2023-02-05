@@ -107,8 +107,12 @@ class _SignupState extends State<Signup> {
                         isLoading = true;
                       });
 
-                      await AuthController().registerUser(context,
-                          emailController.text, passwordController.text);
+                      await AuthController().registerUser(
+                        context,
+                        emailController.text,
+                        passwordController.text,
+                        nameController.text,
+                      );
 
                       //--------clear textfields
                       nameController.clear();
