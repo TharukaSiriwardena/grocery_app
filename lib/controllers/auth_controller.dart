@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:grocery_app/models/user_model.dart';
 import 'package:grocery_app/screens/auth/signup.dart';
 import 'package:grocery_app/screens/main/main_screen.dart';
 import 'package:grocery_app/screens/utils/alert_helper.dart';
@@ -68,13 +69,22 @@ class AuthController {
   }
 
   //------------------fetch user data saved in cloud firestore
-  Future<void> fetchUserData(String uid) async {
+  Future<UserModel?> fetchUserData(String uid) async {
     try {
       //-------------------firebase query that fetch user data
       DocumentSnapshot snapshot = await users.doc(uid).get();
-      Logger().w(snapshot.data());
+      //Logger().w(snapshot.data());
+
+      //-------------------mapping fetched data to user model
+      UserModel model =
+          UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      Logger().w(model.name);
+
+      return model;
     } catch (e) {
       Logger().e(e);
+
+      return null;
     }
   }
 
