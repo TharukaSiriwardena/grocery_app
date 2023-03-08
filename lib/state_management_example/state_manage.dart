@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/components/custom_text.dart';
 import 'package:grocery_app/screens/utils/util_functions.dart';
+import 'package:grocery_app/state_management_example/provider/counter_provider.dart';
 import 'package:grocery_app/state_management_example/screen2.dart';
+import 'package:provider/provider.dart';
 
 class StateManage extends StatefulWidget {
   const StateManage({Key? key}) : super(key: key);
@@ -24,24 +26,24 @@ class _StateManageState extends State<StateManage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      counter--;
-                    });
+                    // setState(() {
+                    //   counter--;
+                    // });
                   },
                   child: const CustomText("-"),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: CustomText(
-                    '$counter',
+                    Provider.of<CounterProvider>(context).counter.toString(),
                     fontSize: 20,
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      counter++;
-                    });
+                    // setState(() {
+                    //   counter++;
+                    // });
                   },
                   child: const CustomText("+"),
                 )
@@ -49,7 +51,7 @@ class _StateManageState extends State<StateManage> {
             ),
             ElevatedButton(
               onPressed: () {
-                UtilFunctions.navigateTo(context, ScreenTwo(counter: counter));
+                // UtilFunctions.navigateTo(context, ScreenTwo(counter: counter));
               },
               child: const CustomText("Go to next Page"),
             )

@@ -16,7 +16,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MultiProvider(
+  runApp(
+      //initializing providers
+      MultiProvider(
     providers: [
       ChangeNotifierProvider(
         create: (context) => CounterProvider(),
