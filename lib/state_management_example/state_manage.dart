@@ -29,6 +29,9 @@ class _StateManageState extends State<StateManage> {
                     // setState(() {
                     //   counter--;
                     // });
+
+                    Provider.of<CounterProvider>(context, listen: false)
+                        .decreaseCounter();
                   },
                   child: const CustomText("-"),
                 ),
@@ -53,6 +56,9 @@ class _StateManageState extends State<StateManage> {
                     // setState(() {
                     //   counter++;
                     // });
+
+                    Provider.of<CounterProvider>(context, listen: false)
+                        .increaseCounter();
                   },
                   child: const CustomText("+"),
                 )
@@ -60,7 +66,7 @@ class _StateManageState extends State<StateManage> {
             ),
             ElevatedButton(
               onPressed: () {
-                // UtilFunctions.navigateTo(context, ScreenTwo(counter: counter));
+                UtilFunctions.navigateTo(context, const ScreenTwo());
               },
               child: const CustomText("Go to next Page"),
             )
