@@ -34,10 +34,19 @@ class _StateManageState extends State<StateManage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: CustomText(
-                    Provider.of<CounterProvider>(context).counter.toString(),
-                    fontSize: 20,
+                  child: Consumer<CounterProvider>(
+                    builder: (context, value, child) {
+                      return CustomText(
+                        value.counter.toString(),
+                        fontSize: 20,
+                      );
+                    },
                   ),
+
+                  // child: CustomText(
+                  //   Provider.of<CounterProvider>(context).counter.toString(),
+                  //   fontSize: 20,
+                  // ),
                 ),
                 ElevatedButton(
                   onPressed: () {
