@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/providers/auth/signup_provider.dart';
 import 'package:grocery_app/state_management_example/provider/counter_provider.dart';
-// import 'package:grocery_app/screens/splash/splash_screen.dart';
-import 'package:grocery_app/state_management_example/state_manage.dart';
+import 'package:grocery_app/screens/splash/splash_screen.dart';
+//import 'package:grocery_app/state_management_example/state_manage.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
@@ -18,9 +19,8 @@ Future<void> main() async {
       //initializing providers
       MultiProvider(
     providers: [
-      ChangeNotifierProvider(
-        create: (context) => CounterProvider(),
-      ),
+      ChangeNotifierProvider(create: (context) => CounterProvider()),
+      ChangeNotifierProvider(create: (context) => SignupProvider()),
     ],
     child: const MyApp(),
   ));
@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const SplashScreen(),
-      home: const StateManage(),
+      home: const SplashScreen(),
+      //home: const StateManage(),
       builder: (context, child) => ResponsiveWrapper.builder(
           BouncingScrollWrapper.builder(context, child!),
           maxWidth: 1200,
