@@ -1,13 +1,13 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/controllers/auth_controller.dart';
+
+import 'package:grocery_app/providers/auth/login_provider.dart';
 import 'package:grocery_app/screens/auth/forgot_password.dart';
 
-import 'package:grocery_app/screens/utils/alert_helper.dart';
 import 'package:grocery_app/screens/utils/app_colors.dart';
 import 'package:grocery_app/screens/utils/assets_constants.dart';
 import 'package:grocery_app/screens/utils/util_functions.dart';
-import 'package:logger/logger.dart';
+
+import 'package:provider/provider.dart';
 
 import '../../components/custom_button.dart';
 import '../../components/custom_text.dart';
@@ -22,15 +22,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // ---------------- email text controller
-  final emailController = TextEditingController();
-
-  // ----------------password controller
-  final passwordController = TextEditingController();
-
-  //------------------loader state
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     // get the screen width and height
@@ -61,13 +52,15 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 39),
                 CustomTextField(
                   hintText: 'Email',
-                  controller: emailController,
+                  controller:
+                      Provider.of<LoginProvider>(context).emailController,
                 ),
                 const SizedBox(height: 8),
                 CustomTextField(
                   hintText: 'Password',
                   isObscure: true,
-                  controller: passwordController,
+                  controller:
+                      Provider.of<LoginProvider>(context).passwordController,
                 ),
                 const SizedBox(height: 16),
                 Align(
@@ -85,30 +78,13 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 const SizedBox(height: 29),
-                CustomButton(
-                  text: 'Login',
-                  isLoading: isLoading,
-                  onTap: () async {
-                    if (validateFields()) {
-                      //---------start the loader
-                      setState(() {
-                        isLoading = true;
-                      });
-
-                      await AuthController().signInUser(context,
-                          emailController.text, passwordController.text);
-
-                      //--------clear textfields
-                      emailController.clear();
-                      passwordController.clear();
-
-                      //---------stop the loader
-                      setState(() {
-                        isLoading = false;
-                      });
-                    } else {
-                      Logger().e("validation failed");
-                    }
+                Consumer<LoginProvider>(
+                  builder: (context, value, child) {
+                    return CustomButton(
+                      text: 'Login',
+                      isLoading: value.isLoading,
+                      onTap: () => value.startLogin(context),
+                    );
                   },
                 ),
                 const SizedBox(height: 23),
@@ -138,28 +114,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  // --------------- validate textfield function
-  bool validateFields() {
-    // ----------- first checking all the text fields are empty or not
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      //------------ show error dialog
-      AlertHelper.showAlert(
-          context, DialogType.ERROR, "ERROR", "Please fill all the fields !");
-      return false;
-    } else if (!emailController.text.contains("@")) {
-      //---------- show error dialog
-      AlertHelper.showAlert(
-          context, DialogType.ERROR, "ERROR", "Please enter a valid email !");
-      return false;
-    } else if (passwordController.text.length < 6) {
-      //--------- show error dialog
-      AlertHelper.showAlert(context, DialogType.ERROR, "ERROR",
-          "Password have more than 6 digits !");
-      return false;
-    } else {
-      return true;
-    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/providers/auth/login_provider.dart';
 import 'package:grocery_app/providers/auth/signup_provider.dart';
 import 'package:grocery_app/state_management_example/provider/counter_provider.dart';
 import 'package:grocery_app/screens/splash/splash_screen.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => CounterProvider()),
       ChangeNotifierProvider(create: (context) => SignupProvider()),
+      ChangeNotifierProvider(create: (context) => LoginProvider()),
     ],
     child: const MyApp(),
   ));
